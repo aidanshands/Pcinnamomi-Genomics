@@ -1,1 +1,1 @@
-# Pcinnamomi-Genomics
+# P.cinnamomi-Genomics
