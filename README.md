@@ -36,10 +36,28 @@ minimap2 -ax map-pb -t8 Pc2113_racon2.fasta Pc2113_Combined_Subreads.fq > 2113_3
 Pilon Round 1:
 ``` bash
 bowtie2-build Pc2113_racon3.fasta Pc2113_racon3
-bowtie2 -x Pc2113_racon3 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_racon3_sorted.bam -
-samtools index -b Pc2113_racon3_sorted_1.bam
-pilon --genome Pc2113_racon3.fasta --bam Pc2113_racon3_sorted_1.bam
+bowtie2 -x Pc2113_racon3 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_1.bam -
+samtools index -b Pc2113_1.bam
+pilon --genome Pc2113_racon3.fasta --bam Pc2113_1.bam
+# result: Pc2113_pilon1.fasta
+```
 
+Pilon Round 2:
+``` bash
+bowtie2-build Pc2113_pilon1.fasta Pc2113_pilon1
+bowtie2 -x Pc2113_pilon1 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_2.bam -
+samtools index -b Pc2113_2.bam
+pilon --genome Pc2113_pilon1.fasta --bam Pc2113_2.bam
+# result: Pc2113_pilon2.fasta
+```
+
+Pilon Round 3:
+``` bash
+bowtie2-build Pc2113_pilon2.fasta Pc2113_pilon2
+bowtie2 -x Pc2113_pilon2 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_3.bam -
+samtools index -b Pc2113_3.bam
+pilon --genome Pc2113_pilon2.fasta --bam Pc2113_3.bam
+# result: Pc2113_pilon3.fasta
 ```
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
