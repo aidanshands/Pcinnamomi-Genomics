@@ -1,4 +1,4 @@
-# Shands et al. (2023) Phytophthora cinnamomi Genomics Materials
+# Shands et al. (2023) _Phytophthora cinnamomi_ Genomics Materials
 Shands et al., 2023 _(in prep)_
 
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
