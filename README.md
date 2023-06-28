@@ -7,7 +7,7 @@ The genomic Illumina reads were filtered using Trimmomatic v0.36.
 exec java  -jar /opt/linux/centos/7.x/x86_64/pkgs/trimmomatic/0.36/trimmomatic-0.36.jar PE Pc2113_1.fq Pc2113_2.fq 2113_forward_paired.fq.gz 2113_forward_unpaired.fq.gz 2113_reverse_paired.fq.gz 2113_reverse_unpaired.fq.gz ILLUMINACLIP:TruSeq3-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36
 ```
 ## *De novo* Genome Assmebly
-Canu v1.7.1 (Koren et al. 2017), was used at default setting to generate both assemblies.
+Canu v1.7.1 (https://github.com/marbl/canu) (Koren et al. 2017), was used at default setting to generate both assemblies.
 ``` bash
 canu \
 -p 2113_Canu \
@@ -16,7 +16,7 @@ genomeSize=200m \
 ```
 
 ## Genome Assembly Correcting/Polishing
-The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (Langmead & Salzberg, 2012) and Samtools v. 1.17 (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon.
+The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 ([https://github.com/broadinstitute/pilon/wiki/Requirements-&-Usage](https://github.com/broadinstitute/pilon)) (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (https://github.com/lh3/minimap2) (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (https://github.com/BenLangmead/bowtie2) (Langmead & Salzberg, 2012) and Samtools v. 1.17 (http://www.htslib.org/) (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon.
 
 Racon Round 1:
 ``` bash
@@ -41,7 +41,6 @@ samtools index -b Pc2113_1.bam
 pilon --genome Pc2113_racon3.fasta --bam Pc2113_1.bam
 # result: Pc2113_pilon1.fasta
 ```
-
 Pilon Round 2:
 ``` bash
 bowtie2-build Pc2113_pilon1.fasta Pc2113_pilon1
@@ -50,15 +49,32 @@ samtools index -b Pc2113_2.bam
 pilon --genome Pc2113_pilon1.fasta --bam Pc2113_2.bam
 # result: Pc2113_pilon2.fasta
 ```
-
 Pilon Round 3:
 ``` bash
 bowtie2-build Pc2113_pilon2.fasta Pc2113_pilon2
 bowtie2 -x Pc2113_pilon2 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_3.bam -
 samtools index -b Pc2113_3.bam
 pilon --genome Pc2113_pilon2.fasta --bam Pc2113_3.bam
-# result: Pc2113_pilon3.fasta
+# result: Pc2113_Polished.fasta
 ```
+
+
+## Genome Assembly Purging
+The resulted polished assemblies were subjected to haplotype purging to obtain a haploid genome assembly size that was consistent with our FCM estimations using Purge Haplotigs (https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) (Roach et al. 2018). 
+``` bash
+# Minimap2
+minimap2 -ax map-pb Pc2113_Polished.fasta Pc2113_Combined_Subreads.fq | samtools view -hF 256 - | samtools sort -@ 8 -o aligned.bam -T tmp
+# Step 1
+purge_haplotigs  readhist  -b aligned.bam  -g Pc2113_Polished.fasta  -t 8
+# Step 2 the values here were used for Pc2109: -l 20  -m 83  -h 185
+purge_haplotigs  contigcov  -i aligned.bam.gencov  -l 22  -m 97  -h 155  -o coverage_stats.csv
+# Step 3
+purge_haplotigs  purge  -g Pc2113_Polished  -c coverage_stats.csv  -o Pc2113_Purged  -a 79  -m 275  -t 16
+# Quast
+quast.py Pc2113_Purged.fasta
+```
+
+
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
 K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
