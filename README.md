@@ -34,6 +34,13 @@ minimap2 -ax map-pb -t8 Pc2113_racon2.fasta Pc2113_Combined_Subreads.fq > 2113_3
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_3.sam Pc2113_racon2.fasta > Pc2113_racon3.fasta
 ```
 Pilon Round 1:
+``` bash
+bowtie2-build Pc2113_racon3.fasta Pc2113_racon3
+bowtie2 -x Pc2113_racon3 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_racon3_sorted.bam -
+samtools index -b Pc2113_racon3_sorted_1.bam
+pilon --genome Pc2113_racon3.fasta --bam Pc2113_racon3_sorted_1.bam
+
+```
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
 K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
