@@ -101,6 +101,7 @@ run_BUSCO.py -i Pc2113T1_genome.fasta \
 -m geno \
 -c 16
 ```
+
 ## Assessing Quality & Heterozygosity via K-mer Analysis Toolkit (KAT)
 The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (https://github.com/TGAC/KAT) (Mapleson et al. 2017).
 ``` bash
@@ -116,7 +117,16 @@ kat comp -t 32 -n -o Pc2113 \
 Pc2113T1_genome.fasta
 ```
 
-
+## Nucmer/DNAdiff/Dotplot
+Whole genome alignments of Pc2113 and Pc2109 was performed using Nucmer and differences were assessed using DNAdiff (Marçais et al. 2018). Whole-genome alignments for the construction of dot plots were generated using Minimap2 v2.10 (Li, 2018) and visualized using D-GENIES v1.3.1 (Cabanettes and Klopp, 2018). 
+``` bash
+# Nucmer
+nucmer -t 32 -l 100 -c 500 --maxmatch Pc2113T1_genome.fasta Pc2109T1_genome.fasta -p 2113_vs_2109
+# DNAdiff
+dnadiff -p 2113_vs_2109 -d 2113_vs_2109.delta
+# Minimap
+minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113_vs_2109.paf
+```
 
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
 This information can also be found in Supplementary Methods. To distinguish the gene-dense regions (GDR) and gene-sparse regions (GSR) of the genome we used methods described in Raffaele et al., 2010 and Rojas-Estevez et al., 2020. First, we simulated single-copy ‘core’ orthologs (n=2540) content determined by Orthofinder in GDRs and GSRs as percent of total genes belonging to each of these regions using values of the length ‘L’ of the FIRS between genes ranging from 100 bp to 5 Kb with 100bp increments. Genes with both FIRs greater than L were considered GSR genes and genes with both FIRs below L were considered GDR genes. Genes that had one FIR larger than L and the other lower than L were considered in-between, and genes with one FIR missing was considered not determined (ND). The core ortholog segregation rate was defined as the difference between the core ortholog content within the GDRs and GSRs, respectively. To determine the optimal L value that best fits the data, and that maximized the segregation rate and in which the percentage of core ortholog genes residing in GDR or in-between corresponded to at least 90%. 
