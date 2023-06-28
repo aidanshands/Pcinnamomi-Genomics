@@ -14,7 +14,7 @@ Jellyfish count:
 ``` bash
 for i in 17 25 33 41 49 57 65 73 81 89 97 99
 do
-  jellyfish count -m $i -s 1000000000  -t 4 -o Pc2113_k$i.jf 2113_forward_paired.fq 2113_reverse_paired.fq.gz
+  jellyfish count -m $i -s 1000000000  -t 4 -o Pc2113_k$i.jf 2113_forward_paired.fq 2113_reverse_paired.fq
 done
 ```
 Jellyfish histo:
@@ -104,11 +104,14 @@ run_BUSCO.py -i Pc2113T1_genome.fasta \
 ## Assessing Quality & Heterozygosity via K-mer Analysis Toolkit (KAT)
 The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (https://github.com/TGAC/KAT) (Mapleson et al. 2017).
 ``` bash
-# COMP
+# Comp
 kat comp -t 32 -o Pc2113 \
-'/bigdata/manosalvalab/pmanosal/Pcin_Genomes/100x_Illumina/Pc2109_100x_Illumina/Pc2109_1_forward_paired.fq /bigdata/manosalvalab/pmanosal/Pcin_Genomes/100x_Illumina/Pc2109_100x_Illumina/Pc2109_1_reverse_paired.fq' \
-Pc2109_141Mb.fasta
-
+2113_forward_paired.fq 2113_reverse_paired.fq \
+Pc2113T1_genome.fasta
+# Density 
+kat comp -t 32 -n -o Pc2113 \
+2113_forward_paired.fq 2113_reverse_paired.fq \
+Pc2113T1_genome.fasta
 ```
 
 
