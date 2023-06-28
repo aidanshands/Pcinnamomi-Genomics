@@ -18,9 +18,10 @@ genomeSize=200m \
 ## Genome Assembly Correcting/Polishing
 The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 (Walker et al. 2014) iteratively three times. 
 
-Racon: 
+Minimap2 (used before Racon) & Racon 
 ``` bash
-
+minimap2 -ax map-pb -t8 Pc2113_Canu.contigs.fasta Pc2113_Combined_Subreads.fq > 2113_1.sam
+~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_1.sam Pc2113_Canu.contigs.fasta > Pc2113_racon1.fasta
 ```
 
 
