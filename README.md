@@ -108,6 +108,8 @@ The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (
 kat comp -t 32 -o Pc2113 \
 2113_forward_paired.fq 2113_reverse_paired.fq \
 Pc2113T1_genome.fasta
+```
+``` bash
 # Density 
 kat comp -t 32 -n -o Pc2113 \
 2113_forward_paired.fq 2113_reverse_paired.fq \
