@@ -58,9 +58,8 @@ pilon --genome Pc2113_pilon2.fasta --bam Pc2113_3.bam
 # result: Pc2113_Polished.fasta
 ```
 
-
 ## Genome Assembly Purging
-The resulted polished assemblies were subjected to haplotype purging to obtain a haploid genome assembly size that was consistent with our FCM estimations using Purge Haplotigs (https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) (Roach et al. 2018). 
+The resulted polished assemblies were subjected to haplotype purging to obtain a haploid genome assembly size that was consistent with our FCM estimations using Purge Haplotigs (https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) (Roach et al. 2018). QUAST v.4.6.3 (https://github.com/ablab/quast) (Gurevich et al. 2013) was used to evaluagte the genome assemblies.
 ``` bash
 # Minimap2
 minimap2 -ax map-pb Pc2113_Polished.fasta Pc2113_Combined_Subreads.fq | samtools view -hF 256 - | samtools sort -@ 8 -o aligned.bam -T tmp
