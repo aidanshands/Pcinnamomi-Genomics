@@ -16,7 +16,7 @@ genomeSize=200m \
 ```
 
 ## Genome Assembly Correcting/Polishing
-The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (Li, 2018) was used to map the PacBio reads to the Canu draft and the respective sam file was used for Racon. 
+The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (Langmead & Salzberg, 2012) and Samtools v. 1.17 (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon.
 
 Racon Round 1:
 ``` bash
@@ -33,6 +33,7 @@ Racon Round 3:
 minimap2 -ax map-pb -t8 Pc2113_racon2.fasta Pc2113_Combined_Subreads.fq > 2113_3.sam
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_3.sam Pc2113_racon2.fasta > Pc2113_racon3.fasta
 ```
+Pilon Round 1:
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
 K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
