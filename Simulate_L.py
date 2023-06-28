@@ -22,21 +22,20 @@ Range_start = int(args.start)
 Range_end = int(args.end)
 Range_by = int(args.by)
 #-------------------------------------------------------------------------------
-FIRs = pd.read_csv(FIR_input)# Read in FIRs.csv as pandas data frame
-SCOs = pd.read_csv(SCO_input)# Read in Single-copy orthologs.csv as pandas data frame
+FIRs = pd.read_csv(FIR_input)
+SCOs = pd.read_csv(SCO_input)
 # If the IDs have a "." then replace the "." and values after with empty string
 SCOs['ID'] = SCOs['ID'].map(lambda x: re.sub(r'\.\d+$', '', x) if '.' in x else x)
-SCOs_L = SCOs["ID"].to_list() # Cast the SCO IDs as a list
+SCOs_L = SCOs["ID"].to_list() 
 L_list = [*range(Range_start, Range_end, Range_by)]# Define the L-values to simulate
 # Function that simulates L
 def Lsim(PcFIRs, Ortho_List, Type):
-    Summary = pd.DataFrame(columns = ['L-value', 'Length_of_Dataset', 'Ortholog_Count']) # define empty df
-    Gene_dict = {} # Define empty dictionary
-    # Name the dfs
+    Summary = pd.DataFrame(columns = ['L-value', 'Length_of_Dataset', 'Ortholog_Count'])
+    Gene_dict = {}
     for name in L_list:
         Gene_dict[name] = pd.DataFrame()
     keys_values = Gene_dict.items()
-    Gene_dict = {str(key): value for key, value in keys_values}# setting keys to string
+    Gene_dict = {str(key): value for key, value in keys_values}
     for (name, df), L in zip(Gene_dict.items(), L_list):
         # Gene-sparse
         if Type == "GSR":
