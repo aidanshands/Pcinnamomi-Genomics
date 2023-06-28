@@ -23,7 +23,16 @@ Racon Round 1:
 minimap2 -ax map-pb -t8 Pc2113_Canu.contigs.fasta Pc2113_Combined_Subreads.fq > 2113_1.sam
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_1.sam Pc2113_Canu.contigs.fasta > Pc2113_racon1.fasta
 ```
-
+Racon Round 2:
+``` bash
+minimap2 -ax map-pb -t8 Pc2113_racon1.fasta Pc2113_Combined_Subreads.fq > 2113_2.sam
+~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_2.sam Pc2113_racon1.fasta > Pc2113_racon2.fasta
+```
+Racon Round 3:
+``` bash
+minimap2 -ax map-pb -t8 Pc2113_racon2.fasta Pc2113_Combined_Subreads.fq > 2113_3.sam
+~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_3.sam Pc2113_racon2.fasta > Pc2113_racon3.fasta
+```
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
 K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
