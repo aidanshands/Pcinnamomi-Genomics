@@ -8,7 +8,7 @@ exec java  -jar /opt/linux/centos/7.x/x86_64/pkgs/trimmomatic/0.36/trimmomatic-0
 ```
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
-K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
+K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). The same code was applied for Pc2109 with the respective genome assembly described in Shands et et al. (2023).
 
 **Jellyfish count:**
 ``` bash
@@ -26,7 +26,8 @@ done
 ```
 
 ## *De novo* Genome Assmebly
-Canu v1.7.1 (https://github.com/marbl/canu) (Koren et al. 2017), was used at default setting to generate both assemblies.
+Canu v1.7.1 (https://github.com/marbl/canu) (Koren et al. 2017), was used at default setting to generate both assemblies. The same code was applied for Pc2109 described in Shands et et al. (2023).
+
 ``` bash
 canu \
 -p 2113_Canu \
@@ -35,8 +36,7 @@ genomeSize=200m \
 ```
 
 ## Genome Assembly Correcting/Polishing
-The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 ([https://github.com/broadinstitute/pilon/wiki/Requirements-&-Usage](https://github.com/broadinstitute/pilon)) (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (https://github.com/lh3/minimap2) (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (https://github.com/BenLangmead/bowtie2) (Langmead & Salzberg, 2012) and Samtools v. 1.17 (http://www.htslib.org/) (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon.
-
+The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 ([https://github.com/broadinstitute/pilon/wiki/Requirements-&-Usage](https://github.com/broadinstitute/pilon)) (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (https://github.com/lh3/minimap2) (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (https://github.com/BenLangmead/bowtie2) (Langmead & Salzberg, 2012) and Samtools v. 1.17 (http://www.htslib.org/) (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon. The same code was applied for Pc2109 described in Shands et et al. (2023).
 **Racon Round 1:**
 ``` bash
 minimap2 -ax map-pb -t8 Pc2113_Canu.contigs.fasta Pc2113_Combined_Subreads.fq > 2113_1.sam
@@ -78,7 +78,7 @@ pilon --genome Pc2113_pilon2.fasta --bam Pc2113_3.bam
 ```
 
 ## Genome Assembly Purging
-The resulted polished assemblies were subjected to haplotype purging to obtain a haploid genome assembly size that was consistent with our FCM estimations using Purge Haplotigs (https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) (Roach et al. 2018). QUAST v.4.6.3 (https://github.com/ablab/quast) (Gurevich et al. 2013) was used to evaluagte the genome assemblies.
+The resulted polished assemblies were subjected to haplotype purging to obtain a haploid genome assembly size that was consistent with our FCM estimations using Purge Haplotigs (https://bitbucket.org/mroachawri/purge_haplotigs/src/master/) (Roach et al. 2018). QUAST v.4.6.3 (https://github.com/ablab/quast) (Gurevich et al. 2013) was used to evaluagte the genome assemblies. The same code was applied for Pc2109 described in Shands et et al. (2023).
 ``` bash
 # Minimap2
 minimap2 -ax map-pb Pc2113_Polished.fasta Pc2113_Combined_Subreads.fq | samtools view -hF 256 - | samtools sort -@ 8 -o aligned.bam -T tmp
@@ -93,7 +93,7 @@ quast.py Pc2113_Purged.fasta
 ```
 
 ## Assessing Completeness via BUSCO
-Benchmark Universal Single Copy Orthologs (BUSCO) v.3.0.2 (https://busco.ezlab.org/) (Simão et al. 2015) using the alveolata/stramenopiles database (orthoDB v.10) (Kriventseva et al. 2019) was used to assess completeness of the assemblies. 
+Benchmark Universal Single Copy Orthologs (BUSCO) v.3.0.2 (https://busco.ezlab.org/) (Simão et al. 2015) using the alveolata/stramenopiles database (orthoDB v.10) (Kriventseva et al. 2019) was used to assess completeness of the assemblies. The same code was applied for Pc2109 described in Shands et et al. (2023).
 ``` bash
 run_BUSCO.py -i Pc2113T1_genome.fasta \
 -o Pc2113T1_AS \
@@ -103,7 +103,7 @@ run_BUSCO.py -i Pc2113T1_genome.fasta \
 ```
 
 ## Assessing Quality & Heterozygosity via K-mer Analysis Toolkit (KAT)
-The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (https://github.com/TGAC/KAT) (Mapleson et al. 2017).
+The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (https://github.com/TGAC/KAT) (Mapleson et al. 2017). The same code was applied for Pc2109 described in Shands et et al. (2023).
 
 **KAT Comp**
 ``` bash
