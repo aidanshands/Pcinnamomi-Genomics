@@ -37,22 +37,22 @@ genomeSize=200m \
 ## Genome Assembly Correcting/Polishing
 The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser et al. 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 ([https://github.com/broadinstitute/pilon/wiki/Requirements-&-Usage](https://github.com/broadinstitute/pilon)) (Walker et al. 2014) iteratively three times. Minimap2 v2.10 (https://github.com/lh3/minimap2) (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (https://github.com/BenLangmead/bowtie2) (Langmead & Salzberg, 2012) and Samtools v. 1.17 (http://www.htslib.org/) (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon.
 
-Racon Round 1:
+**Racon Round 1:**
 ``` bash
 minimap2 -ax map-pb -t8 Pc2113_Canu.contigs.fasta Pc2113_Combined_Subreads.fq > 2113_1.sam
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_1.sam Pc2113_Canu.contigs.fasta > Pc2113_racon1.fasta
 ```
-Racon Round 2:
+**Racon Round 2:**
 ``` bash
 minimap2 -ax map-pb -t8 Pc2113_racon1.fasta Pc2113_Combined_Subreads.fq > 2113_2.sam
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_2.sam Pc2113_racon1.fasta > Pc2113_racon2.fasta
 ```
-Racon Round 3:
+**Racon Round 3:**
 ``` bash
 minimap2 -ax map-pb -t8 Pc2113_racon2.fasta Pc2113_Combined_Subreads.fq > 2113_3.sam
 ~/racon/build/bin/racon -t 24 Pc2113_Combined_Subreads.fq 2113_3.sam Pc2113_racon2.fasta > Pc2113_racon3.fasta
 ```
-Pilon Round 1:
+**Pilon Round 1:**
 ``` bash
 bowtie2-build Pc2113_racon3.fasta Pc2113_racon3
 bowtie2 -x Pc2113_racon3 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_1.bam -
@@ -60,7 +60,7 @@ samtools index -b Pc2113_1.bam
 pilon --genome Pc2113_racon3.fasta --bam Pc2113_1.bam
 # result: Pc2113_pilon1.fasta
 ```
-Pilon Round 2:
+**Pilon Round 2:**
 ``` bash
 bowtie2-build Pc2113_pilon1.fasta Pc2113_pilon1
 bowtie2 -x Pc2113_pilon1 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_2.bam -
@@ -68,7 +68,7 @@ samtools index -b Pc2113_2.bam
 pilon --genome Pc2113_pilon1.fasta --bam Pc2113_2.bam
 # result: Pc2113_pilon2.fasta
 ```
-Pilon Round 3:
+**Pilon Round 3:**
 ``` bash
 bowtie2-build Pc2113_pilon2.fasta Pc2113_pilon2
 bowtie2 -x Pc2113_pilon2 -1 2113_3_forward_paired.fq -2 2113_3_reverse_paired.fq | samtools view -Sb - | samtools sort -o Pc2113_3.bam -
@@ -131,9 +131,26 @@ minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113
 ## Ploidy
 Ploidy analysis was performed on the *P. cinnamomi* isolates and *P. infestans* isolate 1306-C (Pan et al., 2108). Two methods were employed to determine ploidy; nQuire (Weiß et al., 2018) was used to estimate ploidy and the R (R Core Team 2020) package *vcfR* (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in *vcfR* I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. 
 
-nQuire:
+**nQuire:**
+Pc2109
 ``` bash
+# nQuire Create
+~/nQuire/nQuire create \
+-b /bigdata/manosalvalab/pmanosal/Pcin_Genomes/Variant_Analysis/PNG_TW_Pc_Ploidy_Analysis_9_17_2020/Pc2109_RG_SND_to_2113_140Mb.bam \
+-o Pc2109_vs_2113 \
+-q 30 -c 31
 
+# nQuire lrdmodel
+~/nQuire/nQuire lrdmodel -t 8 \
+Pc2109_vs_2113.bin > Pc2109_lrdmodel.txt
+
+# nQuire Denoise
+~/nQuire/nQuire denoise \
+Pc2109_vs_2113.bin -o Pc2109_vs_2113_Denoised.bin
+
+# nQuire lrdmodel on denoised bin
+~/nQuire/nQuire lrdmodel -t 16 \
+Pc2109_vs_2113_Denoised.bin > Pc2109_lrdmodel_Denoised.txt
 ```
 
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
