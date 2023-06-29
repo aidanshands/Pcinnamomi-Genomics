@@ -121,7 +121,7 @@ Pc2113T1_genome.fasta
 ```
 
 ## Nucmer/DNAdiff/Dotplot
-Whole genome alignments of Pc2113 and Pc2109 was performed using Nucmer and differences were assessed using DNAdiff (Marçais et al. 2018). Whole-genome alignments for the construction of dot plots were generated using Minimap2 v2.10 (Li, 2018) and visualized using D-GENIES v1.3.1 (Cabanettes and Klopp, 2018). 
+Whole genome alignments of Pc2113 and Pc2109 was performed using Nucmer and differences were assessed using DNAdiff (https://mummer.sourceforge.net/) (Marçais et al. 2018). Whole-genome alignments for the construction of dot plots were generated using Minimap2 v2.10 (Li, 2018) and visualized using D-GENIES v1.3.1 (https://dgenies.toulouse.inra.fr/) (Cabanettes and Klopp, 2018). 
 ``` bash
 # Nucmer
 nucmer -t 32 -l 100 -c 500 --maxmatch Pc2113T1_genome.fasta Pc2109T1_genome.fasta -p 2113_vs_2109
