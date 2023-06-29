@@ -128,6 +128,14 @@ dnadiff -p 2113_vs_2109 -d 2113_vs_2109.delta
 minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113_vs_2109.paf
 ```
 
+## Ploidy
+Ploidy analysis was performed on the *P. cinnamomi* isolates and *P. infestans* isolate 1306-C (Pan et al., 2108). Two methods were employed to determine ploidy; nQuire (Weiß et al., 2018) was used to estimate ploidy and the R (R Core Team 2020) package *vcfR* (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in *vcfR* I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. 
+
+nQuire:
+``` bash
+
+```
+
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
 This information can also be found in Supplementary Methods. To distinguish the gene-dense regions (GDR) and gene-sparse regions (GSR) of the genome we used methods described in Raffaele et al., 2010 and Rojas-Estevez et al., 2020. First, we simulated single-copy ‘core’ orthologs (n=2540) content determined by Orthofinder in GDRs and GSRs as percent of total genes belonging to each of these regions using values of the length ‘L’ of the FIRS between genes ranging from 100 bp to 5 Kb with 100bp increments. Genes with both FIRs greater than L were considered GSR genes and genes with both FIRs below L were considered GDR genes. Genes that had one FIR larger than L and the other lower than L were considered in-between, and genes with one FIR missing was considered not determined (ND). The core ortholog segregation rate was defined as the difference between the core ortholog content within the GDRs and GSRs, respectively. To determine the optimal L value that best fits the data, and that maximized the segregation rate and in which the percentage of core ortholog genes residing in GDR or in-between corresponded to at least 90%. 
 
