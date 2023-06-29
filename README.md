@@ -144,15 +144,13 @@ Pc2113_2.fq
 ```
 
 **BWA-mem**
-
-The same code was applied for Pi1306-C with the respective genome assembly described in Shands et et al. (2023).
 ``` bash
 # performed the same for each isolate
 bwa index -p Pc2113T1_genome.fasta
 bwa mem -t 32 Pc2113T1_genome \
 Pc2113_1_filtered.fq \
 Pc2113_2_filtered.fq \
--R Pc2113
+-R $(echo "@RG\tID:"${Pc2113}"\tSM:"${Pc2113}"\tLB:"${Pc2113}"\tPL:ILLUMINA")
 | samtools view -bS - > Pc2113.bam
 ```
 
@@ -186,17 +184,14 @@ The -c value for nQuire Create for each sample: Pc2113 (-c 40), CBS144.22 (-c 14
 -o Pc2109 \
 -q 30 -c 31
 
-# the same code was applied for each sample, respectively. 
 # nQuire lrdmodel
 ~/nQuire/nQuire lrdmodel -t 8 \
 Pc2109.bin > Pc2109_lrdmodel.txt
 
-# the same code was applied for each sample, respectively. 
 # nQuire Denoise
 ~/nQuire/nQuire denoise \
 Pc2109.bin -o Pc2109_Denoised.bin
 
-# the same code was applied for each sample, respectively. 
 # nQuire lrdmodel on denoised bin
 ~/nQuire/nQuire lrdmodel -t 16 \
 Pc2109_Denoised.bin > Pc2109_lrdmodel_Denoised.txt
