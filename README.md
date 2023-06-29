@@ -144,6 +144,7 @@ Pc2113_2.fq
 ```
 
 **BWA-mem**
+
 The same code was applied for Pi1306-C with the respective genome assembly described in Shands et et al. (2023).
 ``` bash
 # performed the same for each isolate
@@ -175,6 +176,7 @@ vcftools --gzvcf Pc_Isolates_UNFILTERED.vcf.gz \
 ```
 
 **nQuire:**
+
 The -c value for nQuire Create for each sample: Pc2113 (-c 40), CBS144.22 (-c 14), Pi1306-C (-c 13).
 ``` bash
 # -c values for each sample: Pc2113 (-c 40), CBS144.22 (-c 14), Pi1306-C (-c 13)
