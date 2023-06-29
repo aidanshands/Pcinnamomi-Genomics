@@ -132,7 +132,32 @@ minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113
 ```
 
 ## Ploidy
-Ploidy analysis was performed on the *P. cinnamomi* isolates and *P. infestans* isolate 1306-C (Pan et al., 2108). Two methods were employed to determine ploidy; nQuire (Weiß et al., 2018) was used to estimate ploidy and the R (R Core Team 2020) package *vcfR* (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in *vcfR* I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. 
+Ploidy analysis was performed on the *P. cinnamomi* isolates and *P. infestans* isolate 1306-C (Pan et al., 2108). Two methods were employed to determine ploidy; nQuire (Weiß et al., 2018) was used to estimate ploidy and the R (R Core Team 2020) package *vcfR* (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in *vcfR* I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). BWA-mem (Li 2013) with default settings was used to map the filtered reads to their corresponding genome assemblies, and the respective BAM files were processed using Samtools (Li et al., 2009). Single-nucleotide polymorphisms (SNPs) were called from the processed BAM files using freebayes (Garrison and Marth, 2012) See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. 
+
+**BWA-mem**
+``` bash
+# performed the same for each isolate
+bwa index -p Pc2113T1_genome.fasta
+bwa mem -t 32 Pc2113T1_genome \
+Pc2113_1_filtered.fq \
+Pc2113_2_filtered.fq \
+-R Pc2113
+| samtools view -bS - > Pc2113.bam
+```
+
+**Freebayes**
+``` bash
+freebayes -f Pc2113T1_genome.fasta \
+--ploidy 2 \
+CBS14422.bam \
+Pc2109.bam \
+Pc2113.bam | bgzip > Pc_Isolates_UNFILTERED.vcf.gz
+```
+
+**VCFtools**
+
+
+
 
 **nQuire:**
 
