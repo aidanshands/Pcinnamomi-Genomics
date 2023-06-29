@@ -10,14 +10,14 @@ exec java  -jar /opt/linux/centos/7.x/x86_64/pkgs/trimmomatic/0.36/trimmomatic-0
 ## Genome Size Estimation with Jellyfish & GenomeScope 
 K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7). The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). 
 
-Jellyfish count:
+**Jellyfish count:**
 ``` bash
 for i in 17 25 33 41 49 57 65 73 81 89 97 99
 do
   jellyfish count -m $i -s 1000000000  -t 4 -o Pc2113_k$i.jf 2113_forward_paired.fq 2113_reverse_paired.fq
 done
 ```
-Jellyfish histo:
+**Jellyfish histo:**
 ``` bash
 for i in 17 25 33 41 49 57 65 73 81 89 97 99
 do
@@ -104,12 +104,15 @@ run_BUSCO.py -i Pc2113T1_genome.fasta \
 
 ## Assessing Quality & Heterozygosity via K-mer Analysis Toolkit (KAT)
 The quality and heterozygosity of the assemblies were assessed with KAT v2.3.4 (https://github.com/TGAC/KAT) (Mapleson et al. 2017).
+
+**KAT Comp**
 ``` bash
 # Comp
 kat comp -t 32 -o Pc2113 \
 2113_forward_paired.fq 2113_reverse_paired.fq \
 Pc2113T1_genome.fasta
 ```
+**KAT Density**
 ``` bash
 # Density 
 kat comp -t 32 -n -o Pc2113 \
@@ -132,25 +135,89 @@ minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113
 Ploidy analysis was performed on the *P. cinnamomi* isolates and *P. infestans* isolate 1306-C (Pan et al., 2108). Two methods were employed to determine ploidy; nQuire (Weiß et al., 2018) was used to estimate ploidy and the R (R Core Team 2020) package *vcfR* (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in *vcfR* I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. 
 
 **nQuire:**
-Pc2109
+
+**Pc2109**
 ``` bash
 # nQuire Create
 ~/nQuire/nQuire create \
--b /bigdata/manosalvalab/pmanosal/Pcin_Genomes/Variant_Analysis/PNG_TW_Pc_Ploidy_Analysis_9_17_2020/Pc2109_RG_SND_to_2113_140Mb.bam \
--o Pc2109_vs_2113 \
+-b Pc2109.bam \
+-o Pc2109 \
 -q 30 -c 31
 
 # nQuire lrdmodel
 ~/nQuire/nQuire lrdmodel -t 8 \
-Pc2109_vs_2113.bin > Pc2109_lrdmodel.txt
+Pc2109.bin > Pc2109_lrdmodel.txt
 
 # nQuire Denoise
 ~/nQuire/nQuire denoise \
-Pc2109_vs_2113.bin -o Pc2109_vs_2113_Denoised.bin
+Pc2109.bin -o Pc2109_Denoised.bin
 
 # nQuire lrdmodel on denoised bin
 ~/nQuire/nQuire lrdmodel -t 16 \
-Pc2109_vs_2113_Denoised.bin > Pc2109_lrdmodel_Denoised.txt
+Pc2109_Denoised.bin > Pc2109_lrdmodel_Denoised.txt
+```
+
+**Pc2113**
+``` bash
+# nQuire Create
+~/nQuire/nQuire create \
+-b Pc2113.bam \
+-o Pc2113 \
+-q 30 -c 40
+
+# nQuire lrdmodel
+~/nQuire/nQuire lrdmodel -t 8 \
+Pc2113.bin > Pc2113_lrdmodel.txt
+
+# nQuire Denoise
+~/nQuire/nQuire denoise \
+Pc2113.bin -o Pc2113_Denoised.bin
+
+# nQuire lrdmodel on denoised bin
+~/nQuire/nQuire lrdmodel -t 16 \
+Pc2113_Denoised.bin > Pc2113_lrdmodel_Denoised.txt
+```
+
+**CBS 144.22**
+``` bash
+# nQuire Create
+~/nQuire/nQuire create \
+-b CBS14422.bam \
+-o CBS14422 \
+-q 30 -c 14
+
+# nQuire lrdmodel
+~/nQuire/nQuire lrdmodel -t 8 \
+CBS14422.bin > CBS14422_lrdmodel.txt
+
+# nQuire Denoise
+~/nQuire/nQuire denoise \
+CBS14422.bin -o PCBS14422_Denoised.bin
+
+# nQuire lrdmodel on denoised bin
+~/nQuire/nQuire lrdmodel -t 16 \
+CBS14422_Denoised.bin > CBS14422_lrdmodel_Denoised.txt
+```
+
+**Pi1306-C**
+``` bash
+# nQuire Create
+~/nQuire/nQuire create \
+-b Pi1306.bam \
+-o Pi1306 \
+-q 30 -c 13
+
+# nQuire lrdmodel
+~/nQuire/nQuire lrdmodel -t 8 \
+Pi1306.bin > Pi1306_lrdmodel.txt
+
+# nQuire Denoise
+~/nQuire/nQuire denoise \
+Pi1306.bin -o Pi1306_Denoised.bin
+
+# nQuire lrdmodel on denoised bin
+~/nQuire/nQuire lrdmodel -t 16 \
+Pi1306_Denoised.bin > Pi1306_lrdmodel_Denoised.txt
 ```
 
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
