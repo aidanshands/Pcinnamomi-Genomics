@@ -27,10 +27,10 @@ def find_RXLRs(fasta, motif):
                   'XLR-EER': r"^[a-yA-Y]{10,110}[A-Y][A-Y]LR[A-Y]*EER",
                   "EER": r"^[a-yA-Y]{34,150}?EER"}
 
-    for motif, regex in motifs.items():
+    for RXLR, regex in motifs.items():
         fasta_sequences = SeqIO.parse(open(fasta),'fasta')
-        ID_File = motif + "_ID_and_Motifs.txt"
-        result_file = motif + '_Positives.fasta'
+        ID_File = RXLR + "_ID_and_Motifs.txt"
+        result_file = RXLR + '_Positives.fasta'
         with open(result_file, 'w') as f, open(ID_File, 'w') as ID:
             for sequence in fasta_sequences:
                 matches = re.search(regex, str(sequence.seq))
@@ -38,8 +38,8 @@ def find_RXLRs(fasta, motif):
                     SeqIO.write([sequence], f, "fasta")
                     ID_Loc = matches.end()
                     if motif == "without -EER":
-                        ID_Pos = "%s %s %d" % (sequence.id + '\t', motif + 'motif begins at:''\t', (ID_Loc - 3))
-                    else:
+                        ID_Pos = "%s %s %d" % (sequence.id + '\t', RXLR + 'motif begins at:''\t', (ID_Loc - 3))
+                    if motif == "with -EER":
                         ID_Pos = "%s %s %d" % (sequence.id + '\t', 'EER motif begins at:''\t', (ID_Loc - 2))
                     ID.write(str(ID_Pos) + "\n")
 #-------------------------------------------------------------------------------
