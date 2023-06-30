@@ -15,12 +15,6 @@ K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2
 for i in 17 25 33 41 49 57 65 73 81 89 97 99
 do
   jellyfish count -m $i -s 1000000000  -t 4 -o Pc2113_k$i.jf 2113_forward_paired.fq 2113_reverse_paired.fq
-done
-```
-**Jellyfish histo:**
-``` bash
-for i in 17 25 33 41 49 57 65 73 81 89 97 99
-do
   jellyfish histo -t 6 -o Pc2113_histo_k$i.txt Pc2113_k$i.jf
 done
 ```
