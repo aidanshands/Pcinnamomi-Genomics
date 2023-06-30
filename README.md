@@ -126,7 +126,7 @@ minimap2 -t 32 -cx asm10 --cs Pc2113T1_genome.fasta Pc2109T1_genome.fasta > 2113
 ```
 
 ## Ploidy
-Ploidy analysis was performed on the _P. cinnamomi_ isolates and _P. infestans_ isolate 1306-C (Pan _et al._, 2108). Two methods were employed to determine ploidy; nQuire (Weiß _et al._, 2018) was used to estimate ploidy and the R (R Core Team 2020) package _vcfR_ (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in _vcfR_ I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). BWA-mem (Li 2013) with default settings was used to map the filtered reads to their corresponding genome assemblies, and the respective BAM files were processed using Samtools (Li _et al._, 2009). Single-nucleotide polymorphisms (SNPs) were called from the processed BAM files using freebayes (Garrison and Marth, 2012) See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. The same code was applied for all samples with the respective genome assembly described in Shands _et al._ (2023).
+Ploidy analysis was performed on the _P. cinnamomi_ isolates and _P. infestans_ isolate 1306-C (Pan _et al._, 2108). Two methods were employed to determine ploidy; nQuire (Weiß _et al._, 2018) was used to estimate ploidy and the R (R Core Team 2020) package _vcfR_ (Knaus and Grünwald, 2017) was used to infer ploidy. For allele balance histograms generated in _vcfR_ I followed the tutorial by Brian J. Knaus and Niklaus J. Grünwald (https://knausb.github.io/vcfR_documentation/determining_ploidy_1.html). See CBS14422_Allele_Balance.R, Pc2113_Allele_Balance.R, Pc2109_Allele_Balance.R & Pi1306C_Allele_Balance.R. To run each of these methods, reads were filtered with fastq-mcf v1.05 (Aronesty, 2011) then BWA-mem (Li 2013) was used to map the filtered reads to their corresponding genome assemblies, and the respective BAM files were processed using Samtools (Li _et al._, 2009). Single-nucleotide polymorphisms (SNPs) were called from the processed BAM files using freebayes (Garrison and Marth, 2012). The same code was applied for all samples with the respective genome assembly described in Shands _et al._ (2023).
 
 **Fastq-mcf**
 ``` bash
@@ -171,7 +171,6 @@ vcftools --gzvcf Pc_Isolates_UNFILTERED.vcf.gz \
 
 The -c value for nQuire Create for each sample: Pc2113 (-c 40), CBS144.22 (-c 14), Pi1306-C (-c 13).
 ``` bash
-# -c values for each sample: Pc2113 (-c 40), CBS144.22 (-c 14), Pi1306-C (-c 13)
 # nQuire Create
 ~/nQuire/nQuire create \
 -b Pc2109.bam \
