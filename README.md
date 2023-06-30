@@ -212,30 +212,30 @@ python Deliminate_Genome.py -i Pc2113_SC_OG.csv -l 1100
 ```
 
 ## Secretome & RXLR Effectors
-Proteome for each P. cinnamomi isolate was scanned for signal peptide (SP) presence using 
-SignalP (v.5.0) (Armenteros et al. 2019). The resulting proteins containing SP sequence were subjected to TMHMM (v.2.0) analyses (Möller et al., 2001) to identify transmembrane domains (TMDs). TMD-containing proteins were removed from the secretome protein dataset. Secretomes were subjected to EffectorP v3.0 (Sperschneider & Dodds, 2021) to predict apoplastic, cytoplasmic, and dual-localized effectors. RXLR effectors were predicted from the secretome using regular expression (REGEX) searches (FindRXLRs.py). The same code was applied for Pc2109 described in Shands _et al._ (2023).
+Proteome for each _P. cinnamomi_ isolate was scanned for signal peptide (SP) presence using 
+SignalP (v.5.0) (Armenteros _et al._ 2019). The resulting proteins containing SP sequence were subjected to TMHMM (v.2.0) analyses (Möller _et al._, 2001) to identify transmembrane domains (TMDs). TMD-containing proteins were removed from the secretome protein dataset. Secretomes were subjected to EffectorP v3.0 (Sperschneider & Dodds, 2021) to predict apoplastic, cytoplasmic, and dual-localized effectors. RXLR effectors were predicted from the secretome using regular expression (REGEX) searches (FindRXLRs.py). The same code was applied for Pc2109 described in Shands _et al._ (2023).
 
-Signal P
+**Signal P**
 ``` bash
 signalp -fasta Pc2113T1_genome.pep.fasta -org euk -format short -prefix Pc2113_Short
 ```
 
-TMHMM
+**TMHMM**
 ``` bash
 tmhmm --short Pc2113T1_SP5.fasta > Pc2113T1_SP5_TMHMM.txt
 ```
 
-Effector P 3.0
+**Effector P 3.0**
 ``` bash
 python EffectorP.py -i Pc2113T1_SP5.fasta > Pc2113_EffectorP_out.txt
 ```
 
-Finding RXLRs
+**Finding RXLRs**
 ``` bash
 python FindRXLRs.py -i Pc2113T1_SP5_noTMHMM.fasta
 ```
 
-CAZyme Identification
+**CAZyme Identification**
 ``` bash
 python FindRXLRs.py -i Pc2113T1_SP5_noTMHMM.fasta
 ```
