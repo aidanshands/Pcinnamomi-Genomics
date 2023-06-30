@@ -190,6 +190,13 @@ Pc2109.bin -o Pc2109_Denoised.bin
 Pc2109_Denoised.bin > Pc2109_lrdmodel_Denoised.txt
 ```
 
+## Orthofinder
+Orthologs were identified using Orthofinder v.2.5.2 (Emms & Kelly, 2019).
+
+``` bash
+orthofinder -f Input_Fastas/
+```
+
 ## Delimiting Genome into Gene-sparse & Gene-dense Regions 
 This information can also be found in Supplementary Methods. To distinguish the gene-dense regions (GDR) and gene-sparse regions (GSR) of the genome we used methods described in Raffaele et al., 2010 and Rojas-Estevez et al., 2020. First, we simulated single-copy ‘core’ orthologs (n=2540) content determined by Orthofinder in GDRs and GSRs as percent of total genes belonging to each of these regions using values of the length ‘L’ of the FIRS between genes ranging from 100 bp to 5 Kb with 100bp increments. Genes with both FIRs greater than L were considered GSR genes and genes with both FIRs below L were considered GDR genes. Genes that had one FIR larger than L and the other lower than L were considered in-between, and genes with one FIR missing was considered not determined (ND). The core ortholog segregation rate was defined as the difference between the core ortholog content within the GDRs and GSRs, respectively. To determine the optimal L value that best fits the data, and that maximized the segregation rate and in which the percentage of core ortholog genes residing in GDR or in-between corresponded to at least 90%. The same code was applied for Pc2109 described in Shands _et al._ (2023).
 
@@ -199,8 +206,32 @@ python Simulate_L.py -i Pc2113_FIRs.csv -sco Pc2113_SCO.csv -s 100 -e 5100 -b 10
 ```
 The results from this script were analzed in Excel to determine the optimal L-value. 
 
-
 Next, we applied the optimal L-value to define the respective regions using Deliminate_Genome.py:
 ``` bash
 python Deliminate_Genome.py -i Pc2113_SC_OG.csv -l 1100
 ```
+
+## Secretome & Effectors
+Proteome for each P. cinnamomi isolate was scanned for signal peptide (SP) presence using 
+SignalP (v.5.0) (Armenteros et al. 2019). The resulting proteins containing SP sequence were subjected to TMHMM (v.2.0) analyses (Möller et al., 2001) to identify transmembrane domains (TMDs). TMD-containing proteins were removed from the secretome protein dataset. Secretomes were subjected to EffectorP v3.0 (Sperschneider & Dodds, 2021) to predict apoplastic, cytoplasmic, and dual-localized effectors. RXLR effectors were predicted from the secretome using regular expression (REGEX) searches (FindRXLRs.py). The same code was applied for Pc2109 described in Shands _et al._ (2023).
+
+Signal P
+``` bash
+signalp -fasta Pc2113T1_genome.pep.fasta -org euk -format short -prefix Pc2113_Short
+```
+
+TMHMM
+``` bash
+tmhmm --short Pc2113T1_SP5.fasta > Pc2113T1_SP5_TMHMM.txt
+```
+
+Effector P 3.0
+``` bash
+python EffectorP.py -i Pc2113T1_SP5.fasta > Pc2113_EffectorP_out.txt
+```
+Finding RXLRs
+
+``` bash
+python FindRXLRs.py -i Pc2113T1_SP5_noTMHMM.fasta
+```
+
