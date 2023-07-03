@@ -85,6 +85,8 @@ purge_haplotigs  purge  -g Pc2113_Polished  -c coverage_stats.csv  -o Pc2113_Pur
 # Quast
 quast.py Pc2113_Purged.fasta
 ```
+## Genome Annotation
+Genome annotation were performed by Dr. Aureliano Bombarely (https://bombarelylab.com/people/). 
 
 ## Assessing Completeness via BUSCO
 Benchmark Universal Single Copy Orthologs (BUSCO) v.3.0.2 (https://busco.ezlab.org/) (Simão _et al._ 2015) using the alveolata/stramenopiles database (orthoDB v.10) (Kriventseva _et al._ 2019) was used to assess completeness of the assemblies. The same code was applied for Pc2109 described in Shands _et al._ (2023).
