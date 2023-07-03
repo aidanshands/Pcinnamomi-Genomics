@@ -247,6 +247,26 @@ iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m MFP
 iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m VT+F+R7 -bb 1000 -nm 5000
 ```
 ## Transcriptomic Analysis 
+RNA sequencing reads were mapped to the Pc2113 reference assembly with HISAT2 (Kim et al., 2019) using default settings. Samtools was used for alignment mapping file processing. Reads were counted with HTseq-count (Anders et al., 2015). Differential gene expression analysis was conducted using the R package DEseq2 v.1.30.1 (Love _et al_., 2014). Gene expression in terms of transcript per million (TPM) was generated using the same bam files described previously using StringTie v2.2.1. The transcript TPM values was extracted from the output GTF file and was averaged across each of the sample replicates at each timepoint, respectively. This workflow was applied to all RNAseq samples described in Shands _et al._ (2023). See 
 
+**HISAT2, Samtools & HTseq-count**
+``` bash
+# HISAT2 Mapping & Samtools
+for i in DuI16A DuI16B DuI16C DuI24A DuI24B DuI24C
+do
+  hisat2 -q --summary-file $i.Summary.txt \
+  -x Pc2113T1 \
+  -1 $i.1.fq \
+  -2 $i.2.fq \
+  -p 32 | samtools view -Sb - | samtools sort -n -o $i.sorted.bam -T $i.TEMP -@ 32 -
+done;
 
+# HTseq-count 
+for i in DuI16A DuI16B DuI16C DuI24A DuI24B DuI24C
+do
+  htseq-count -q -f bam -i Parent -s no -a 10 -t exon \
+  $i.sorted.bam Pc2113T1_genome.gene_models_v1_0.gff > $i.Counts.txt
+done;
+
+```
 
