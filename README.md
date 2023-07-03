@@ -267,6 +267,14 @@ do
   htseq-count -q -f bam -i Parent -s no -a 10 -t exon \
   $i.sorted.bam Pc2113T1_genome.gene_models_v1_0.gff > $i.Counts.txt
 done;
-
+```
+**StringTie**
+``` bash
+for i in DuI16A DuI16B DuI16C DuI24A DuI24B DuI24C
+do
+  samtools sort -@ 64 -o $i.coord.sorted.bam $i.sorted.bam
+  mkdir $i.ctabOut
+  stringtie -e -b $i.ctab -p 64 -A $i.gene_abund.txt -G $gff -o $i.stringtie.gtf $i.coord.sorted.bam
+done;
 ```
 
