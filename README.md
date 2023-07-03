@@ -213,7 +213,7 @@ python Deliminate_Genome.py -i Pc2113_SC_OG.csv -l 1100
 
 ## Secretome & RXLR Effectors
 Proteome for each _P. cinnamomi_ isolate was scanned for signal peptide (SP) presence using 
-SignalP (v.5.0) (Armenteros _et al._ 2019). The resulting proteins containing SP sequence were subjected to TMHMM (v.2.0) analyses (Möller _et al._, 2001) to identify transmembrane domains (TMDs). TMD-containing proteins were removed from the secretome protein dataset. Secretomes were subjected to EffectorP v3.0 (Sperschneider & Dodds, 2021) to predict apoplastic, cytoplasmic, and dual-localized effectors. RXLR effectors were predicted from the secretome using regular expression (REGEX) searches (FindRXLRs.py). The same code was applied for Pc2109 described in Shands _et al._ (2023).
+SignalP (v.5.0) (Armenteros _et al._ 2019). The resulting proteins containing SP sequence were subjected to TMHMM (v.2.0) analyses (Möller _et al._, 2001) to identify transmembrane domains (TMDs). TMD-containing proteins were removed from the secretome protein dataset. Secretomes were subjected to EffectorP v3.0 (Sperschneider & Dodds, 2021) to predict apoplastic, cytoplasmic, and dual-localized effectors. RXLR effectors were predicted from the secretome using regular expression (REGEX) searches (FindRXLRs.py). The same code was applied for Pc2109 described in Shands _et al._ (2023). Multiple sequence alignments of the predicted RXLRs and 61 RXLRs from Englebricht _et al._, 2021 were performed with MUSCLE v.3.8.425 (Edgar, 2004) using default settings. A maximum likelihood phylogenetic tree was generated using IQ-Tree2 v. 2.1.3 (Minh et al., 2020) with the VT+R7 model determined by ModelFinder (Kalyannanmoorthy _et al._, 2017). 
 
 **Signal P**
 ``` bash
@@ -245,6 +245,8 @@ iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m MFP
 
 # IQ-Tree v. 2.1.3 
 iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m VT+F+R7 -bb 1000 -nm 5000
-
 ```
+## Transcriptomic Analysis 
+
+
 
