@@ -235,8 +235,16 @@ python EffectorP.py -i Pc2113T1_SP5.fasta > Pc2113_EffectorP_out.txt
 python FindRXLRs.py -i Pc2113T1_SP5_noTMHMM.fasta
 ```
 
-**CAZyme Identification**
+**IQ-Tree2**
 ``` bash
-python FindRXLRs.py -i Pc2113T1_SP5_noTMHMM.fasta
+# Muscle v.3.8.425 alignment 
+muscle -in All_RXLRs.fasta -out RXLR_Alignment.fasta
+
+# IQ-Tree v. 2.1.3 Modelfinder
+iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m MFP
+
+# IQ-Tree v. 2.1.3 
+iqtree2 -s RXLR_Alignment.fasta -mem 32G -T AUTO -m VT+F+R7 -bb 1000 -nm 5000
+
 ```
 
