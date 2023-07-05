@@ -8,7 +8,7 @@ exec java  -jar /opt/linux/centos/7.x/x86_64/pkgs/trimmomatic/0.36/trimmomatic-0
 ```
 
 ## Genome Size Estimation with Jellyfish & GenomeScope 
-K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7) (Marçais and Kingsford, 2011.) The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). The same code was applied for Pc2109 with the respective genome assembly described in Shands _et al._ (2023).
+K-mer histograms were generated with trimmed Illumina reads using Jellyfish (v.2.3.0) (k-mer range 17-99 increments of 7) (Marçais and Kingsford, 2011.) The respective histo outputs were uploaded to GenomeScope (http://qb.cshl.edu/genomescope/). The same code was applied for Pc2109 described in Shands _et al._ (2023).
 
 **Jellyfish count:**
 ``` bash
