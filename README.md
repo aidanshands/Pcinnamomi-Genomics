@@ -211,7 +211,7 @@ The results from this script were analzed in Excel to determine the optimal L-va
 
 Next, we applied the optimal L-value to define the respective regions using Deliminate_Genome.py:
 ``` bash
-python Deliminate_Genome.py -i Pc2113_SC_OG.csv -l 1100
+python Deliminate_Genome.py -i Pc2113_FIRs.csv -l 1100
 ```
 
 ## Secretome & RXLR Effectors
