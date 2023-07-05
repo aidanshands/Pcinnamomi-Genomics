@@ -31,6 +31,7 @@ genomeSize=200m \
 
 ## Genome Assembly Correcting/Polishing
 The resulting draft assemblies were corrected with PacBio reads iteratively three times using Racon v1.3.2 (Varser _et al._ 2017) follwed by polishing with the Illumina reads with Pilon v.1.22 ([https://github.com/broadinstitute/pilon/wiki/Requirements-&-Usage](https://github.com/broadinstitute/pilon)) (Walker _et al._ 2014) iteratively three times. Minimap2 v2.10 (https://github.com/lh3/minimap2) (Li, 2018) was used to map the PacBio reads to the draft Canu assembly and the respective sam file was used for Racon. Bowtie2 v.2.3.5 (https://github.com/BenLangmead/bowtie2) (Langmead & Salzberg, 2012) and Samtools v. 1.17 (http://www.htslib.org/) (Li et al., 2009) were used for mapping and sam/bam processing prior to Pilon. The same code was applied for Pc2109 described in Shands _et al._ (2023).
+
 **Racon Round 1:**
 ``` bash
 minimap2 -ax map-pb -t8 Pc2113_Canu.contigs.fasta Pc2113_Combined_Subreads.fq > 2113_1.sam
