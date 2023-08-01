@@ -207,7 +207,7 @@ Simulate_L.py was used to simulate L as follows for each isolate:
 ``` bash
 python Simulate_L.py -i Pc2113_FIRs.csv -sco Pc2113_SCO.csv -s 100 -e 5100 -b 100
 ```
-The results from this script were analzed in Excel to determine the optimal L-value. 
+The results from this script were analyzed in Excel to determine the optimal L-value. 
 
 Next, we applied the optimal L-value to define the respective regions using Deliminate_Genome.py:
 ``` bash
