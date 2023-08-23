@@ -1,6 +1,8 @@
 # Shands et al. (2023) _Phytophthora cinnamomi_ Genomics Materials
 _Shands et al., 2023 (in prep)_
 
+Please note that this repository is under development, thank you. 
+
 ## Trimming Illumina Reads
 The genomic Illumina reads were filtered using Trimmomatic v0.36. 
 ``` bash
